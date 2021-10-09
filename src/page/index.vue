@@ -30,7 +30,7 @@
           <span class="el-dropdown-link">{{ userInfo.nickname }}</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="userInfo">用户信息</el-dropdown-item>
-            <el-dropdown-item>注销登录</el-dropdown-item>
+            <el-dropdown-item command="loginOut">注销登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -93,14 +93,21 @@ export default {
     menuSelect(index) {},
     handleCommand(command) {
       if (command === "userInfo") {
-        this.showUserInfo();
+        this.showUserInfo()
+      }
+      if(command === 'loginOut'){
+        this.loginOut()
       }
     },
     // 展示个人信息
     showUserInfo() {
       this.dialogVisible = true;
     },
-    
+    // 登出
+    loginOut() {
+      localStorage.removeItem('token')
+      this.$router.push({ name: 'login', params: {}})
+    }
   },
 };
 </script>
