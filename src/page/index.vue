@@ -4,22 +4,23 @@
       <el-menu
         :default-openeds="[]"
         @select="menuSelect"
-        :unique-opened="true"
+        :unique-opened="false"
         router
         :default-active="$route.path"
       >
         <el-submenu index="1">
-          <template slot="title"><i class="el-icon-s-tools"></i>系统管理</template>
+          <template slot="title"><i class="el-icon-s-tools"></i>内容管理</template>
           <el-menu-item-group>
             <el-menu-item index="/user"><i class="el-icon-user"></i>用户管理</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
+            <el-menu-item index="1-2"><i class="el-icon-school"></i>机构管理</el-menu-item>
+            <el-menu-item index="1-3"><i class="el-icon-scissors"></i>器械管理</el-menu-item>
+            <el-menu-item index="1-4"><i class="el-icon-s-check"></i>用户组管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
-          <template slot="title"><i class="el-icon-menu"></i>导航二</template>
+          <template slot="title"><i class="el-icon-document"></i>订单管理</template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-1"><i class="el-icon-s-claim"></i>订单审核</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -71,8 +72,7 @@ export default {
     // 获取用户基本信息
      getUserInfo() {
       const params = {
-        token: this.token,
-      };
+      }
       getUserInfo(params).then((res) => {
         if (res.code === 200) {
           this.userInfo = res.data;
@@ -103,8 +103,15 @@ export default {
 
 <style>
 .el-header {
-  background-color: #b3d8ff;
-  line-height: 60px;
+  background-color: #dceafa;
+  line-height: 56px;
+  border-style: solid;
+  border-color: #7dbafc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
+}
+.el-main {
+  padding: 10px;
 }
 .el-aside {
   color: rgb(214, 210, 210);

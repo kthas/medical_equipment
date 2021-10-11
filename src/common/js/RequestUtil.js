@@ -51,6 +51,7 @@ httpService.interceptors.response.use(response => {
 //5、get请求的封装
 export function get(url,params){
     return new Promise((resolve,reject) => {
+        params.token =  localStorage.getItem('token')
         httpService({
             url:url,
             method:'get',
@@ -65,6 +66,7 @@ export function get(url,params){
 //6、post请求封装  默认json格式:'Content-Type':'application/json',如果是文件上传，可以修改headers为 headers: { 'Content-Type': 'multipart/form-data' }
 export function post(url,params,headers={'content-type':'application/json'}){
     return new Promise((resolve,reject) => {
+        params.token =  localStorage.getItem('token')
         httpService({
             url:url,
             method:'post',
