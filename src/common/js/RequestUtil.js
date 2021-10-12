@@ -30,6 +30,9 @@ httpService.interceptors.request.use(config => {
 httpService.interceptors.response.use(response => {
     if(response.data.code === 400){
         v.$message.warning(response.data.msg)
+        if(response.data.msg ==='权限不足'){
+            return response
+        }
         router.replace({
             path: '/login',
             query: {

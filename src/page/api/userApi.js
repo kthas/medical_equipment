@@ -8,3 +8,9 @@ export function getUserInfo(params){
 export function getUserList(params){
     return get('/api/v1/advance/user/list',params)
 }
+export function updateUserInfo(params){
+    return get('/api/v1/advance/user/updateInfo',params)
+}
+export function getUserGroupList(params){
+    return get('/api/v1/advance/usergroup/list',params)
+}

@@ -24,6 +24,11 @@ export default new Router({
           path: '/user',
           name: 'user',
           component: resolve => require(['@/page/user/user'],resolve)
+        },
+        {
+          path: '/machine',
+          name: 'machine',
+          component: resolve => require(['@/page/machine/machine'],resolve)
         }
       ]
     }    
