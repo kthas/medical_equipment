@@ -34,21 +34,29 @@
       ref="userUpdateDialog"
       :chooseUserInfo="chooseUserInfo"
     ></UserUpdate>
+    <AddUserGroup
+      ref="addUserGroupDialog"
+      :chooseUserInfo="chooseUserInfo"
+      :groupList="groupList"
+    ></AddUserGroup>
   </div>
 </template>
 
 <script>
 import UserUpdate from "@/page/user/components/UserUpdate";
-import { getUserList ,getUserGroupList} from "@/page/api/userApi";
+import AddUserGroup from "@/page/user/components/AddUserGroup";
+import { getUserList } from "@/page/api/userApi";
 import { formatDate } from "@/common/js/DateFormatUtil.js";
 export default {
   components: {
     UserUpdate,
+    AddUserGroup
   },
   data() {
     return {
       userList: [],
-      chooseUserInfo:{}
+      chooseUserInfo: {},
+      groupList:[]
     };
   },
   created() {
@@ -69,17 +77,13 @@ export default {
     // 更新用户
     updateUser(scope) {
       this.$refs.userUpdateDialog.showUserUpdate();
-      this.chooseUserInfo = scope.row
+      this.chooseUserInfo = scope.row;
     },
     // 添加用户组
     addGroup(scope) {
-      const parmas = {
-
-      }
-      getUserGroupList(parmas).then(res =>{
-        console.log(res)
-      })
-    }
+      this.chooseUserInfo = scope.row;
+      this.$refs.addUserGroupDialog.show()
+    },
   },
 };
 </script>

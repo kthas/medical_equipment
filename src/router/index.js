@@ -29,6 +29,11 @@ export default new Router({
           path: '/machine',
           name: 'machine',
           component: resolve => require(['@/page/machine/machine'],resolve)
+        },
+        {
+          path: '/order',
+          name: 'order',
+          component: resolve => require(['@/page/order/order'],resolve)
         }
       ]
     }    

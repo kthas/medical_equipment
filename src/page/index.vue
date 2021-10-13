@@ -33,7 +33,7 @@
             ><i class="el-icon-document"></i>订单管理</template
           >
           <el-menu-item-group>
-            <el-menu-item index="2-1"
+            <el-menu-item index="/order"
               ><i class="el-icon-s-claim"></i>订单审核</el-menu-item
             >
           </el-menu-item-group>
@@ -85,7 +85,7 @@ export default {
       userInfoVisible: false,
       userUpdateVisible: false,
       contentPath: ["/user", "/machine"],
-      orderPath: [],
+      orderPath: ["/order"],
     };
   },
   created() {
@@ -130,7 +130,10 @@ export default {
         if (this.contentPath.indexOf(this.$route.path) >= 0) {
           this.$refs.menu.open(1);
         }
-      }, 0); //延时1秒
+        if (this.orderPath.indexOf(this.$route.path) >= 0) {
+          this.$refs.menu.open(2);
+        }
+      }, 0); 
     },
   },
 };

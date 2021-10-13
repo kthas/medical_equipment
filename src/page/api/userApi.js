@@ -14,3 +14,10 @@ export function updateUserInfo(params){
 export function getUserGroupList(params){
     return get('/api/v1/advance/usergroup/list',params)
 }
+
+export function addToGroup(params){
+    return get('/api/v1/advance/user/addToGroup',params)
+}
+export function removeFromGroup(params){
+    return get('/api/v1/advance/user/removeFromGroup',params)
+}
