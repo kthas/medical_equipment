@@ -7,7 +7,12 @@
     </el-row>
     <el-row :gutter="0">
       <el-col :span="24">
-        <el-table :data="userList" style="width: 100%; padding: 20px">
+        <el-table
+          :data="
+            userList.slice((currentPage - 1) * pagesize, currentPage * pagesize)
+          "
+          style="width: 100%; padding: 20px"
+        >
           <el-table-column prop="username" label="用户名" width="100px">
           </el-table-column>
           <el-table-column prop="nickname" label="昵称" width="100px">
@@ -28,6 +33,16 @@
             </template></el-table-column
           >
         </el-table>
+        <el-pagination
+          :page-size="pagesize"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          layout="prev, pager, next"
+          :total="machineList.length"
+        >
+        </el-pagination>
+        
       </el-col>
     </el-row>
     <UserUpdate
@@ -50,13 +65,16 @@ import { formatDate } from "@/common/js/DateFormatUtil.js";
 export default {
   components: {
     UserUpdate,
-    AddUserGroup
+    AddUserGroup,
   },
   data() {
     return {
       userList: [],
       chooseUserInfo: {},
-      groupList:[]
+      groupList: [],
+      machineList: [],
+      currentPage: 1, //初始页
+      pagesize: 5, //    每页的数据
     };
   },
   created() {
@@ -82,7 +100,14 @@ export default {
     // 添加用户组
     addGroup(scope) {
       this.chooseUserInfo = scope.row;
-      this.$refs.addUserGroupDialog.show()
+      this.$refs.addUserGroupDialog.show();
+    },
+        // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange(size) {
+      this.pagesize = size;
+    },
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage;
     },
   },
 };
