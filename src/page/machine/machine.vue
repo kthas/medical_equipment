@@ -3,8 +3,9 @@
     <el-row :gutter="5">
       <el-col :span="24"><span class="headerTitle">器械管理</span></el-col>
       <el-divider></el-divider>
-      <el-button type="primary" plain>新增器械大类</el-button>
-      <el-button type="primary" plain>新增器械</el-button>
+      <el-button type="primary" plain @click="addMachineMain()"
+        >新增器械大类</el-button
+      >
     </el-row>
     <el-row :gutter="0">
       <el-col :span="24">
@@ -21,8 +22,15 @@
             <template slot-scope="props">
               <el-table
                 :data="props.row.subtype"
-                style="width: 100%;"
+                style="width: 100%; text-align: center"
               >
+                <el-table-column
+                  prop="index"
+                  label="排序号"
+                  align="center"
+                  width="80px"
+                >
+                </el-table-column>
                 <el-table-column prop="name" label="器械名"> </el-table-column>
                 <el-table-column prop="desc" label="器械介绍">
                 </el-table-column>
@@ -39,9 +47,13 @@
               </el-table>
             </template>
           </el-table-column>
+          <el-table-column prop="typeId" label="大类编号"> </el-table-column>
           <el-table-column prop="name" label="器械大类"> </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
+              <el-button type="text" size="small" @click="addMachineSub(scope)"
+                >新增器械</el-button
+              >
               <el-button type="text" size="small" @click="deleteMachine(scope)"
                 >删除</el-button
               >
@@ -59,17 +71,26 @@
         </el-pagination>
       </el-col>
     </el-row>
+    <AddMachineMain ref="addMachineMain" @refresh="refresh"></AddMachineMain>
+    <AddMachineSub ref="addMachineSub" @refresh="refresh"></AddMachineSub>
   </div>
 </template>
 
 <script>
-import { getMachineList } from "@/page/api/machineApi";
+import { getMachineList, removeMain, removeSub } from "@/page/api/machineApi";
+import AddMachineMain from "./components/AddMachineMain.vue";
+import AddMachineSub from "./components/AddMachineSub.vue";
 export default {
+  components: {
+    AddMachineMain,
+    AddMachineSub,
+  },
   data() {
     return {
       machineList: [],
       currentPage: 1, //初始页
-      pagesize: 5, //    每页的数据
+      pagesize: 5, //    每页的数据,
+      chooseMachineId:''
     };
   },
   created() {
@@ -81,17 +102,53 @@ export default {
       getMachineList(params).then((res) => {
         if (res.code === 200) {
           this.machineList = res.data;
+          this.machineList.forEach(e =>{
+            e.subtype.forEach(s=>{
+              s.machineId=e.id
+            })
+          })
         }
       });
     },
-    deleteMachine() {},
-    deleteSubmachine(){},
+    addMachineMain() {
+      this.$refs.addMachineMain.show();
+    },
+    addMachineSub(scope) {
+      this.$refs.addMachineSub.show(scope.row.id);
+    },
+    deleteMachine(scope) {
+      const params = {
+        machineId: scope.row.id,
+      };
+      removeMain(params).then((res) => {
+        if (res.code === 200) {
+          this.$notify.success("删除成功");
+          this.refresh();
+        }
+      });
+    },
+    deleteSubmachine(scope) {
+      const params = {
+        machineId: scope.row.machineId,
+        index:scope.row.index
+      };
+      removeSub(params).then((res) => {
+        if (res.code === 200) {
+          this.$notify.success("删除成功");
+          this.refresh();
+        }
+      });
+    },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange(size) {
       this.pagesize = size;
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
+    },
+    // 刷新表格
+    refresh() {
+      this.getMachineList();
     },
   },
 };
