@@ -17,13 +17,13 @@
             <el-menu-item index="/user"
               ><i class="el-icon-user"></i>用户管理</el-menu-item
             >
-            <el-menu-item index="1-2"
+            <el-menu-item index="/organ"
               ><i class="el-icon-school"></i>机构管理</el-menu-item
             >
             <el-menu-item index="/machine"
               ><i class="el-icon-scissors"></i>器械管理</el-menu-item
             >
-            <el-menu-item index="1-4"
+            <el-menu-item index="/userGroup"
               ><i class="el-icon-s-check"></i>用户组管理</el-menu-item
             >
           </el-menu-item-group>
@@ -69,6 +69,7 @@
 
 <script>
 import { getUserInfo } from "./api/userApi";
+import {listPermission} from "./api/loginApi"
 import user from "@/page/user/user";
 import UserInfoDialog from "@/page/user/components/UserInfoDialog";
 import UserUpdate from "@/page/user/components/UserUpdate";
@@ -84,13 +85,16 @@ export default {
       userInfo: {},
       userInfoVisible: false,
       userUpdateVisible: false,
-      contentPath: ["/user", "/machine"],
+      contentPath: ["/user", "/machine","/organ","/userGroup"],
       orderPath: ["/order"],
     };
   },
   created() {
     // 获取用户信息然后进行渲染
     this.getUserInfo();
+    listPermission({}).then(res=>{
+      localStorage.setItem('listPermission',res.data)
+    })
   },
   mounted() {
     this.changeMenu();
@@ -133,7 +137,7 @@ export default {
         if (this.orderPath.indexOf(this.$route.path) >= 0) {
           this.$refs.menu.open(2);
         }
-      }, 0); 
+      }, 50); 
     },
   },
 };

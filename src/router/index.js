@@ -34,6 +34,16 @@ export default new Router({
           path: '/order',
           name: 'order',
           component: resolve => require(['@/page/order/order'],resolve)
+        },
+        {
+          path: '/organ',
+          name: 'organ',
+          component: resolve => require(['@/page/organ/organ'],resolve)
+        },
+        {
+          path: '/userGroup',
+          name: 'userGroup',
+          component: resolve => require(['@/page/userGroup/userGroup'],resolve)
         }
       ]
     }    

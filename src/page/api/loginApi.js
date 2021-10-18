@@ -7,3 +7,6 @@ export function login(params){
 export function test(){
     return get('/api/basic/info/egg')
 }
+export function listPermission(params){
+    return get('/api/basic/info/listPermission',params)
+}

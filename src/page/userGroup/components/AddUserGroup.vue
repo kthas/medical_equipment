@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="添加器械大类"
+    title="新增用户组"
     :visible.sync="visible"
     width="30%"
     :showClose="true"
@@ -9,14 +9,14 @@
     @closed="close()"
   >
     <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-      <el-form-item label="器械编号" prop="typeId">
-        <el-input v-model="form.typeId"></el-input>
-      </el-form-item>
-      <el-form-item label="器械名" prop="name">
+      <el-form-item label="组名" prop="name">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
-      <div style="margin-top: 20px;">
-        <div style="margin-left:32%">
+      <el-form-item label="描述" prop="desc">
+        <el-input type="textarea" v-model="form.desc"></el-input>
+      </el-form-item>
+      <div style="margin-top: 20px">
+        <div style="margin-left: 32%">
           <el-button type="primary" @click="submit()">确认</el-button>
           <el-button @click="close()">取消</el-button>
         </div>
@@ -26,18 +26,17 @@
 </template>
 
 <script>
-import { createMain } from "@/page/api/machineApi";
+import { createGroup } from "@/page/api/userApi";
 export default {
   data() {
     return {
       visible: false,
       form: {
-        typeId: '',
-        name: '',
+        name: "",
+        desc: "",
       },
       rules: {
-        desc: [{ required: true, message: "请填写器械编号" }],
-        name: [{ required: true, message: "请填写器械名" }],
+        name: [{ required: true, message: "请输入组名" }],
       },
     };
   },
@@ -49,15 +48,15 @@ export default {
       this.visible = false;
     },
     submit() {
-      this.$refs['form'].validate((valid) => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
-            createMain(this.form).then(res=>{
-                if(res.code===200){
-                    this.$notify.success('保存成功')
-                    this.close()
-                    this.$emit('refresh')
-                }
-            })
+          createGroup(this.form).then((res) => {
+            if (res.code === 200) {
+              this.$notify.success("保存成功");
+              this.close();
+              this.$emit("refresh");
+            }
+          });
         } else {
           return false;
         }

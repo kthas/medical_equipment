@@ -21,3 +21,19 @@ export function addToGroup(params){
 export function removeFromGroup(params){
     return get('/api/v1/advance/user/removeFromGroup',params)
 }
+export function getGroupList(params){
+    return get('/api/v1/advance/usergroup/list',params)
+}
+
+export function createGroup(params){
+    return get('/api/v1/advance/usergroup/create',params)
+}
+export function updateGroup(params){
+    return get('/api/v1/advance/usergroup/updateGroup',params)
+}
+export function removeGroup(params){
+    return get('/api/v1/advance/usergroup/remove',params)
+}
+
+
+
