@@ -14,16 +14,16 @@
             ><i class="el-icon-s-tools"></i>内容管理</template
           >
           <el-menu-item-group>
-            <el-menu-item index="/user"
+            <el-menu-item v-if="userMenu" index="/user"
               ><i class="el-icon-user"></i>用户管理</el-menu-item
             >
-            <el-menu-item index="/organ"
+            <el-menu-item v-if="organMenu" index="/organ"
               ><i class="el-icon-school"></i>机构管理</el-menu-item
             >
-            <el-menu-item index="/machine"
+            <el-menu-item v-if="machineMenu" index="/machine"
               ><i class="el-icon-scissors"></i>器械管理</el-menu-item
             >
-            <el-menu-item index="/userGroup"
+            <el-menu-item v-if="userGroupMenu" index="/userGroup"
               ><i class="el-icon-s-check"></i>用户组管理</el-menu-item
             >
           </el-menu-item-group>
@@ -33,7 +33,7 @@
             ><i class="el-icon-document"></i>订单管理</template
           >
           <el-menu-item-group>
-            <el-menu-item index="/order"
+            <el-menu-item v-if="userGroupMenu" index="/order"
               ><i class="el-icon-s-claim"></i>订单审核</el-menu-item
             >
           </el-menu-item-group>
@@ -61,6 +61,7 @@
       ></UserInfoDialog>
       <UserUpdate
         ref="userUpdateDialog"
+        :chooseUserInfo="userInfo"
         :visibleParam="userUpdateVisible"
       ></UserUpdate>
     </el-container>
@@ -69,7 +70,7 @@
 
 <script>
 import { getUserInfo } from "./api/userApi";
-import {listPermission} from "./api/loginApi"
+import { listPermission } from "./api/loginApi";
 import user from "@/page/user/user";
 import UserInfoDialog from "@/page/user/components/UserInfoDialog";
 import UserUpdate from "@/page/user/components/UserUpdate";
@@ -85,16 +86,21 @@ export default {
       userInfo: {},
       userInfoVisible: false,
       userUpdateVisible: false,
-      contentPath: ["/user", "/machine","/organ","/userGroup"],
+      contentPath: ["/user", "/machine", "/organ", "/userGroup"],
       orderPath: ["/order"],
+      userMenu: true,
+      machineMenu: true,
+      organMenu: true,
+      userGroupMenu: true,
+      orderMenu: true
     };
   },
   created() {
     // 获取用户信息然后进行渲染
     this.getUserInfo();
-    listPermission({}).then(res=>{
-      localStorage.setItem('listPermission',res.data)
-    })
+    listPermission({}).then((res) => {
+      localStorage.setItem("listPermission", JSON.stringify(res.data));
+    });
   },
   mounted() {
     this.changeMenu();
@@ -137,7 +143,7 @@ export default {
         if (this.orderPath.indexOf(this.$route.path) >= 0) {
           this.$refs.menu.open(2);
         }
-      }, 50); 
+      }, 50);
     },
   },
 };

@@ -11,9 +11,12 @@
     <el-row :gutter="24">
       <el-checkbox-group v-model="checkList">
         <el-col :span="6" v-for="(item, i) in allGroup" :key="i">
-          <el-checkbox :label="item.id" :checked="item.isChecked" @change="check(item.id,$event)">{{
-            item.name
-          }}</el-checkbox>
+          <el-checkbox
+            :label="item.id"
+            :checked="item.isChecked"
+            @change="check(item.id, $event)"
+            >{{ item.name }}</el-checkbox
+          >
         </el-col>
       </el-checkbox-group>
     </el-row>
@@ -21,7 +24,11 @@
 </template>
 
 <script>
-import { getUserGroupList,addToGroup ,removeFromGroup} from "@/page/api/userApi";
+import {
+  getUserGroupList,
+  addToGroup,
+  removeFromGroup,
+} from "@/page/api/userApi";
 export default {
   props: {
     chooseUserInfo: {
@@ -41,13 +48,15 @@ export default {
     chooseUserInfo: {
       handler() {
         this.userInfo = this.chooseUserInfo;
-        this.userInfo.groups.forEach((e) => {
-          for (let i = 0; i < this.allGroup.length; i++) {
-            if (e === this.allGroup[i].id) {
-              this.allGroup[i].isChecked = true;
+        if ( this.userInfo.groups != null) {
+          this.userInfo.groups.forEach((e) => {
+            for (let i = 0; i < this.allGroup.length; i++) {
+              if (e === this.allGroup[i].id) {
+                this.allGroup[i].isChecked = true;
+              }
             }
-          }
-        });
+          });
+        }
       },
       groupList: {
         handler() {
@@ -67,23 +76,22 @@ export default {
       checkList: [],
       allGroup: [],
       groupIds: [],
-      paramsList:[]
+      paramsList: [],
     };
   },
   methods: {
-    check(groupId,e){
-      const params ={
-        userId:this.userInfo.id,
-        groupId
-      }
-      if(e){
-        addToGroup(params)
-      }else{
-        removeFromGroup(params)
+    check(groupId, e) {
+      const params = {
+        userId: this.userInfo.id,
+        groupId,
+      };
+      if (e) {
+        addToGroup(params);
+      } else {
+        removeFromGroup(params);
       }
     },
     show() {
-      
       this.visible = true;
     },
     close() {

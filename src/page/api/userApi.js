@@ -11,6 +11,13 @@ export function getUserList(params){
 export function updateUserInfo(params){
     return get('/api/v1/advance/user/updateInfo',params)
 }
+export function updateUnit(params){
+    return get('/api/v1/basic/user/updateUnit',params)
+}
+
+export function addNewUser(params){
+    return post('/api/v1/advance/user/addNewUser',params)
+}
 export function getUserGroupList(params){
     return get('/api/v1/advance/usergroup/list',params)
 }
@@ -35,5 +42,14 @@ export function removeGroup(params){
     return get('/api/v1/advance/usergroup/remove',params)
 }
 
+export function addPermission(params){
+    return get('/api/v1/advance/usergroup/addPermission',params)
+}
+export function removePermission(params){
+    return get('/api/v1/advance/usergroup/removePermission',params)
+}
+export function updateChecker(params){
+    return get('/api/v1/advance/unit/updateChecker',params)
+}
 
 

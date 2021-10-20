@@ -55,6 +55,7 @@
       </el-col>
     </el-row>
     <AddUserGroup ref="addUserGroup" @refresh="refresh"></AddUserGroup>
+    <UpdatePermission ref="updatePermission" :chooseUserGroup="chooseUserGroup" @refresh="refresh"></UpdatePermission>
     <UpdateUserGroup
       ref="updateUserGroup"
       :chooseUserGroup="chooseUserGroup"
@@ -67,12 +68,12 @@
 import { getGroupList, removeGroup } from "@/page/api/userApi";
 import AddUserGroup from "./components/AddUserGroup";
 import UpdateUserGroup from "./components/UpdateUserGroup";
-import updatePermission from "./components/UpdatePermission";
+import UpdatePermission from "./components/UpdatePermission";
 export default {
   components: {
     AddUserGroup,
     UpdateUserGroup,
-    updatePermission
+    UpdatePermission
   },
   data() {
     return {

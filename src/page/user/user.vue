@@ -3,7 +3,7 @@
     <el-row :gutter="5">
       <el-col :span="24"><span class="headerTitle">用户管理</span></el-col>
       <el-divider></el-divider>
-      <el-button type="primary" plain>新增用户</el-button>
+      <el-button type="primary" plain @click="addUser">新增用户</el-button>
     </el-row>
     <el-row :gutter="0">
       <el-col :span="24">
@@ -11,6 +11,7 @@
           :data="
             userList.slice((currentPage - 1) * pagesize, currentPage * pagesize)
           "
+          v-loading="loading"
           style="width: 100%; padding: 20px"
         >
           <el-table-column prop="username" label="用户名" width="100px">
@@ -22,13 +23,16 @@
           </el-table-column>
           <el-table-column prop="updateTime" label="更新时间">
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="250px">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="updateUser(scope)"
                 >修改</el-button
               >
               <el-button type="text" size="small" @click="addGroup(scope)"
                 >添加用户组</el-button
+              >
+              <el-button type="text" size="small" @click="allocateOrgan(scope)"
+                >分配机构</el-button
               >
             </template></el-table-column
           >
@@ -42,7 +46,6 @@
           :total="machineList.length"
         >
         </el-pagination>
-        
       </el-col>
     </el-row>
     <UserUpdate
@@ -54,18 +57,25 @@
       :chooseUserInfo="chooseUserInfo"
       :groupList="groupList"
     ></AddUserGroup>
+
+    <UserAdd ref="userAddDialog"></UserAdd>
+    <AllocateOrgan ref="allocateOrgan" @refresh="refresh"></AllocateOrgan>
   </div>
 </template>
 
 <script>
 import UserUpdate from "@/page/user/components/UserUpdate";
 import AddUserGroup from "@/page/user/components/AddUserGroup";
-import { getUserList } from "@/page/api/userApi";
+import AllocateOrgan from "@/page/user/components/AllocateOrgan";
+import UserAdd from "@/page/user/components/UserAdd";
+import { getUserList,updateUnit } from "@/page/api/userApi";
 import { formatDate } from "@/common/js/DateFormatUtil.js";
 export default {
   components: {
     UserUpdate,
     AddUserGroup,
+    UserAdd,
+    AllocateOrgan
   },
   data() {
     return {
@@ -73,6 +83,7 @@ export default {
       chooseUserInfo: {},
       groupList: [],
       machineList: [],
+      loading:false,
       currentPage: 1, //初始页
       pagesize: 5, //    每页的数据
     };
@@ -83,6 +94,7 @@ export default {
   methods: {
     // 获取用户列表
     getUserList() {
+      this.loading=true
       const params = {};
       getUserList(params).then((res) => {
         this.userList = res.data;
@@ -90,7 +102,11 @@ export default {
           e.createTime = formatDate(e.createTime);
           e.updateTime = formatDate(e.updateTime);
         });
+        this.loading=false
       });
+    },
+    addUser() {
+      this.$refs.userAddDialog.showUserAdd();
     },
     // 更新用户
     updateUser(scope) {
@@ -102,7 +118,13 @@ export default {
       this.chooseUserInfo = scope.row;
       this.$refs.addUserGroupDialog.show();
     },
-        // 初始页currentPage、初始每页数据数pagesize和数据data
+    allocateOrgan(scope){
+      this.$refs.allocateOrgan.show(scope.row)
+    },
+    refresh(){
+      this.getUserList()
+    },
+    // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange(size) {
       this.pagesize = size;
     },
