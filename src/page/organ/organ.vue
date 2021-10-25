@@ -156,7 +156,7 @@ export default {
         return
       }
       if (this.verfyCheckList()) {
-        this.$refs.checkRank.show();
+        this.$refs.checkRank.show(this.chooseOrgan.id);
       }
     },
     refresh() {

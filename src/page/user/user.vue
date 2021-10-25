@@ -58,7 +58,7 @@
       :groupList="groupList"
     ></AddUserGroup>
 
-    <UserAdd ref="userAddDialog"></UserAdd>
+    <UserAdd ref="userAddDialog" @refresh="refresh"></UserAdd>
     <AllocateOrgan ref="allocateOrgan" @refresh="refresh"></AllocateOrgan>
   </div>
 </template>

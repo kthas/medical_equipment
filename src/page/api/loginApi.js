@@ -10,3 +10,5 @@ export function test(){
 export function listPermission(params){
     return get('/api/basic/info/listPermission',params)
 }
+
+

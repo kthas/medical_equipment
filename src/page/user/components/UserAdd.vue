@@ -67,6 +67,7 @@ export default {
             if (res.code === 200) {
               this.$notify.success("保存成功");
               this.closeUserAdd();
+              this.$emit('refresh')
             }
           });
         }

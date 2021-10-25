@@ -55,7 +55,11 @@
       </el-col>
     </el-row>
     <AddUserGroup ref="addUserGroup" @refresh="refresh"></AddUserGroup>
-    <UpdatePermission ref="updatePermission" :chooseUserGroup="chooseUserGroup" @refresh="refresh"></UpdatePermission>
+    <UpdatePermission
+      ref="updatePermission"
+      :chooseUserGroup="chooseUserGroup"
+      @refresh="refresh"
+    ></UpdatePermission>
     <UpdateUserGroup
       ref="updateUserGroup"
       :chooseUserGroup="chooseUserGroup"
@@ -73,7 +77,7 @@ export default {
   components: {
     AddUserGroup,
     UpdateUserGroup,
-    UpdatePermission
+    UpdatePermission,
   },
   data() {
     return {

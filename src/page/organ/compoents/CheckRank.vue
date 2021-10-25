@@ -13,7 +13,7 @@
         <el-transfer
           v-model="value"
           :data="data"
-          :titles="['未分配用户', '当前顺序']"
+          :titles="['机构所有用户', '当前审核顺序']"
           target-order="push"
         >
         </el-transfer>
@@ -27,6 +27,7 @@
 
 <script>
 import { updateChecker } from "@/page/api/userApi";
+import { listUser } from "@/page/api/organApi";
 export default {
   props: {
     checkList: {
@@ -53,39 +54,48 @@ export default {
       value: [],
       groupId: "",
       checker: [],
+      unitId: "",
+      allUser: [],
     };
   },
   methods: {
-    show() {
+    show(unitId) {
       this.visible = true;
+      this.unitId = unitId;
       this.handlerCheckerList();
     },
     close() {
       this.visible = false;
     },
     handlerCheckerList() {
-      (this.data = []),
-        (this.value = []),
-        this.checker.forEach((e) => {
-          this.data.push({
-            label: e.nickname,
-            key: e.checker.userId,
+      const params = {
+        unitId: this.unitId,
+      };
+      listUser(params).then((res) => {
+        if (res.code === 200) {
+          this.allUser = res.data;
+          this.data = [];
+          this.value = [];
+          this.allUser.forEach((e) => {
+            this.data.push({
+              label: e.nickname,
+              key: e.id,
+            });
           });
-          this.value.push(e.checker.userId);
-        });
+          this.checker.forEach((e) => {
+            this.value.push(e.checker.userId);
+          });
+        }
+      });
     },
     submit() {
-      if (this.data.length != this.value.length) {
-        this.$message.warning("所有用户都需要分配审核顺序");
-        return;
-      }
       let list = this.value[0];
       for (let i = 1; i < this.value.length; i++) {
         list = list + "," + this.value[i];
       }
       const params = {
         list,
-        unitId: this.checker[0].checker.unitId,
+        unitId: this.unitId,
       };
       updateChecker(params).then((res) => {
         if (res.code === 200) {

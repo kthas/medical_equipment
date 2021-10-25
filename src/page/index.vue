@@ -88,11 +88,11 @@ export default {
       userUpdateVisible: false,
       contentPath: ["/user", "/machine", "/organ", "/userGroup"],
       orderPath: ["/order"],
-      userMenu: true,
-      machineMenu: true,
-      organMenu: true,
-      userGroupMenu: true,
-      orderMenu: true
+      userMenu: false,
+      machineMenu: false,
+      organMenu: false,
+      userGroupMenu: false,
+      orderMenu: false,
     };
   },
   created() {
@@ -104,6 +104,22 @@ export default {
   },
   mounted() {
     this.changeMenu();
+    const pids = JSON.parse(localStorage.getItem("pids"));
+    if (pids.indexOf(100) >= 0) {
+      this.userMenu = true;
+    }
+    if (pids.indexOf(200) >= 0) {
+      this.userGroupMenu = true;
+    }
+    if (pids.indexOf(300) >= 0) {
+      this.orderMenu = true;
+    }
+    if (pids.indexOf(400) >= 0) {
+      this.organMenu = true;
+    }
+    if (pids.indexOf(500) >= 0) {
+      this.machineMenu = true;
+    }
   },
   methods: {
     // 获取用户基本信息
@@ -133,6 +149,8 @@ export default {
     // 登出
     loginOut() {
       localStorage.removeItem("token");
+      localStorage.removeItem("pids");
+      localStorage.removeItem("listPermission");
       this.$router.push({ name: "login", params: {} });
     },
     changeMenu() {

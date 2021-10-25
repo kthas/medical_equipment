@@ -15,6 +15,7 @@
           :data="data"
           :titles="['所有权限', '已有权限']"
           @change="handlerChange"
+          :render-content="renderFunc"
         ></el-transfer>
       </el-col>
     </el-row>
@@ -54,6 +55,7 @@ export default {
       data: [],
       value: [],
       groupId: "",
+      listPermission: [],
     };
   },
   methods: {
@@ -73,6 +75,34 @@ export default {
             label: element.name,
           });
         }
+      });
+    },
+    renderFunc(h, option) {
+      var _this = this;
+      const listPermission = JSON.parse(localStorage.getItem("listPermission"));
+      return h("span", {
+        attrs: {
+          id: option.key,
+        },
+        domProps: {
+          innerHTML: option.label,
+        },
+        on: {
+          mouseenter: () => {
+            listPermission.forEach((e) => {
+              if (e.pid === option.key) {
+                _this.$notify({
+                  title: option.label,
+                  message: e.desc,
+                });
+              }
+            });
+          },
+          //鼠标离开
+          mouseleave: () => {
+            this.$notify.closeAll()
+          },
+        },
       });
     },
     handlerChange(currentData, force, data) {
