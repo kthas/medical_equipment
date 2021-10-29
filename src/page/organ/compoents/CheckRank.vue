@@ -15,7 +15,27 @@
           :data="data"
           :titles="['机构所有用户', '当前审核顺序']"
           target-order="push"
+          @right-check-change="checkValue"
         >
+          <el-button
+            style="display: none"
+            slot="left-footer"
+            size="small"
+          ></el-button>
+          <el-button
+            class="transfer-footer"
+            slot="right-footer"
+            size="small"
+            @click="move('up')"
+            >上移</el-button
+          >
+          <el-button
+            class="transfer-footer"
+            slot="right-footer"
+            size="small"
+            @click="move('down')"
+            >下移</el-button
+          >
         </el-transfer>
         <el-button style="margin-left: 45%" type="primary" @click="submit"
           >确认</el-button
@@ -56,6 +76,7 @@ export default {
       checker: [],
       unitId: "",
       allUser: [],
+      rightCheckList: [],
     };
   },
   methods: {
@@ -88,6 +109,45 @@ export default {
         }
       });
     },
+    checkValue(rightCheckList) {
+      this.rightCheckList = rightCheckList;
+    },
+    move(direction) {
+      if (direction === "up") {
+        if (this.rightCheckList.length != 1) {
+          this.$message.warning("请仅选择一个审核员进行操作");
+        } else {
+          const sourceIndex = this.value.indexOf(this.rightCheckList[0]);
+          const targetIndex = sourceIndex - 1;
+          if (sourceIndex === 0) {
+            return;
+          } else {
+            this.value[sourceIndex] = this.value.splice(
+              targetIndex,
+              1,
+              this.value[sourceIndex]
+            )[0];
+          }
+        }
+      }
+      if (direction === "down") {
+        if (this.rightCheckList.length != 1) {
+          this.$message.warning("请仅选择一个审核员进行操作");
+        } else {
+          const sourceIndex = this.value.indexOf(this.rightCheckList[0]);
+          const targetIndex = sourceIndex + 1;
+          if (sourceIndex === this.value.length-1) {
+            return;
+          } else {
+            this.value[sourceIndex] = this.value.splice(
+              targetIndex,
+              1,
+              this.value[sourceIndex]
+            )[0];
+          }
+        }
+      }
+    },
     submit() {
       let list = this.value[0];
       for (let i = 1; i < this.value.length; i++) {
@@ -113,7 +173,7 @@ export default {
 
 <style>
 .transfer-footer {
-  margin-left: 70%;
+  margin-left: 30%;
   padding: 6px 5px;
 }
 </style>
