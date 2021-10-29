@@ -160,9 +160,10 @@ export default {
       updateChecker(params).then((res) => {
         if (res.code === 200) {
           this.close();
+          this.$emit('resetCheckerList')
           this.$notify({
             title: "提示",
-            message: "请点击顶级机构刷新排序",
+            message: "未刷新请点击顶级机构刷新排序",
           });
         }
       });

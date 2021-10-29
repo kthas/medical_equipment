@@ -59,6 +59,7 @@
       ref="checkRank"
       :checkList="userList"
       @refresh="routeReset"
+      @resetCheckerList="resetCheckerList"
     ></CheckRank>
   </div>
 </template>
@@ -81,6 +82,7 @@ export default {
     return {
       organList: [],
       checkList: [],
+      unitId:'',
       chooseOrgan: {},
       userList: [],
       desc: "",
@@ -153,7 +155,7 @@ export default {
     checkRank() {
       if (this.chooseOrgan.level != 0) {
         this.$message.warning("请选择根节点");
-        return
+        return;
       }
       if (this.verfyCheckList()) {
         this.$refs.checkRank.show(this.chooseOrgan.id);
@@ -167,8 +169,8 @@ export default {
         this.checkList.push(data);
         if (data.level != 0) {
           this.checkBtn = false;
-        }else{
-          this.handleNodeClick(data)
+        } else {
+          this.handleNodeClick(data);
           this.checkBtn = true;
         }
       } else {
@@ -185,6 +187,7 @@ export default {
     handleNodeClick(data) {
       this.desc = data.desc;
       this.name = data.name;
+      this.unitId=data.id
       const params = {
         unitId: data.id,
       };
@@ -198,6 +201,16 @@ export default {
         this.checkBtn = false;
         this.userList = [];
       }
+    },
+    resetCheckerList() {
+      const params = {
+        unitId: this.unitId,
+      };
+      listChecker(params).then((res) => {
+        if (res.code === 200) {
+          this.userList = res.data;
+        }
+      });
     },
     routeReset() {
       this.$router.replace;
