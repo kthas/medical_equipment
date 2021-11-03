@@ -28,7 +28,10 @@
             >删除机构</el-button
           >
           <el-button v-if="checkBtn" type="success" plain @click="checkRank"
-            >审核排序</el-button
+            >审核员排序</el-button
+          >
+          <el-button v-if="checkBtn" type="info" plain @click="checkRank"
+            >维修员分配</el-button
           >
           <el-descriptions :title="'机构名:' + name" style="margin-top: 20px">
             <el-descriptions-item label="机构介绍">{{
@@ -82,7 +85,7 @@ export default {
     return {
       organList: [],
       checkList: [],
-      unitId:'',
+      unitId: "",
       chooseOrgan: {},
       userList: [],
       desc: "",
@@ -187,7 +190,7 @@ export default {
     handleNodeClick(data) {
       this.desc = data.desc;
       this.name = data.name;
-      this.unitId=data.id
+      this.unitId = data.id;
       const params = {
         unitId: data.id,
       };
