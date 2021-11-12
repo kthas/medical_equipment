@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="分配所属机构"
+    title="分配维修机构"
     :visible.sync="visible"
     width="30%"
     :showClose="true"
@@ -19,18 +19,23 @@
       :check-strictly="true"
       @check-change="check"
     ></el-tree>
+    <div class="okandcancel">
+      <el-button type="primary" @click="onSubmit">确认</el-button>
+      <el-button @click="close()">取消</el-button>
+    </div>
   </el-dialog>
 </template>
 
 <script>
 import { getOrganList } from "@/page/api/organApi";
-import { updateUnit } from "@/page/api/userApi";
+import { updateUserInfo } from "@/page/api/userApi";
 export default {
   data() {
     return {
       visible: false,
       data: [],
       checkKeys: [],
+      checkedKeys: [],
       userInfo: {},
       defaultProps: {
         children: "children",
@@ -59,7 +64,7 @@ export default {
       e.desc = e.unit.desc;
       e.parentId = e.unit.parentId;
       e.level = e.unit.level;
-      if (e.level === 0) {
+      if (e.level != 0) {
         e.disabled = true;
       }
       if (e.children != null && e.children.length > 0) {
@@ -74,30 +79,40 @@ export default {
       });
     },
     check(node, checked, data) {
-      const checkedKeys = this.$refs.tree.getCheckedKeys();
-      // 如果选中
-      if (checked) {
-        if (checkedKeys.length === 2) {
-          this.$refs.tree.setCheckedKeys([node.id]);
-        }
-        const params ={
-          unitId:node.id,
-          userId:this.userInfo.id
-        }
-        updateUnit(params)
-      }
+      this.checkedKeys = this.$refs.tree.getCheckedKeys();
     },
     show(userinfo) {
       this.userInfo = userinfo;
       this.checkKeys = [];
-      if (this.userInfo.unitId != null) {
-        this.checkKeys.push(this.userInfo.unitId);
+      if (this.userInfo.fixUnits != null) {
+        this.userInfo.fixUnits.forEach((e) => {
+          this.checkKeys.push(e);
+        });
       }
       this.visible = true;
     },
+    onSubmit() {
+      if (this.checkedKeys.length <= 0) {
+        this.$message.warning("请至少选择一个机构");
+      } else {
+        let units = this.checkedKeys[0];
+        for (let i = 1; i < this.checkedKeys.length; i++) {
+          units += "," + this.checkedKeys[i];
+        }
+        const params = {
+            units:units,
+            userId:this.userInfo.id
+        };
+        updateUserInfo(params).then(res =>{
+            if(res.code===200){
+                this.$message.success("保存成功");
+            }
+        })
+      }
+    },
     close() {
       this.resetChecked();
-      this.$emit('refresh')
+      this.$emit("refresh");
       this.visible = false;
     },
   },
@@ -105,4 +120,9 @@ export default {
 </script>
 
 <style>
+.okandcancel {
+  margin-top: 20px;
+  margin-left: 120px;
+  width: 200px;
+}
 </style>

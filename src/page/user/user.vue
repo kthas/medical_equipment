@@ -29,10 +29,13 @@
                 >修改</el-button
               >
               <el-button type="text" size="small" @click="addGroup(scope)"
-                >添加用户组</el-button
+                >分配用户组</el-button
               >
               <el-button type="text" size="small" @click="allocateOrgan(scope)"
-                >分配机构</el-button
+                >分配所属机构</el-button
+              >
+              <el-button type="text" size="small" @click="allocateRepair(scope)"
+                >分配维修机构</el-button
               >
             </template></el-table-column
           >
@@ -60,6 +63,7 @@
 
     <UserAdd ref="userAddDialog" @refresh="refresh"></UserAdd>
     <AllocateOrgan ref="allocateOrgan" @refresh="refresh"></AllocateOrgan>
+    <AllocateRepair ref="allocateRepair" @refresh="refresh"></AllocateRepair>
   </div>
 </template>
 
@@ -67,6 +71,7 @@
 import UserUpdate from "@/page/user/components/UserUpdate";
 import AddUserGroup from "@/page/user/components/AddUserGroup";
 import AllocateOrgan from "@/page/user/components/AllocateOrgan";
+import AllocateRepair from "@/page/user/components/AllocateRepair";
 import UserAdd from "@/page/user/components/UserAdd";
 import { getUserList,updateUnit } from "@/page/api/userApi";
 import { formatDate } from "@/common/js/DateFormatUtil.js";
@@ -75,7 +80,8 @@ export default {
     UserUpdate,
     AddUserGroup,
     UserAdd,
-    AllocateOrgan
+    AllocateOrgan,
+    AllocateRepair
   },
   data() {
     return {
@@ -120,6 +126,9 @@ export default {
     },
     allocateOrgan(scope){
       this.$refs.allocateOrgan.show(scope.row)
+    },
+    allocateRepair(scope){
+       this.$refs.allocateRepair.show(scope.row)
     },
     refresh(){
       this.getUserList()
