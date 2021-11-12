@@ -27,11 +27,11 @@
           <el-button type="danger" plain @click="deleteOrgan"
             >删除机构</el-button
           >
+          <el-button type="info" plain @click="allocateRepairman"
+            >维修员分配</el-button
+          >
           <el-button v-if="checkBtn" type="success" plain @click="checkRank"
             >审核员排序</el-button
-          >
-          <el-button v-if="checkBtn" type="info" plain @click="checkRank"
-            >维修员分配</el-button
           >
           <el-descriptions :title="'机构名:' + name" style="margin-top: 20px">
             <el-descriptions-item label="机构介绍">{{
