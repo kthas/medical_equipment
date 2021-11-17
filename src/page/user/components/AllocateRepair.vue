@@ -92,23 +92,26 @@ export default {
       this.visible = true;
     },
     onSubmit() {
+      let units;
       if (this.checkedKeys.length <= 0) {
-        this.$message.warning("请至少选择一个机构");
+        units = "";
       } else {
-        let units = this.checkedKeys[0];
+        units = this.checkedKeys[0];
         for (let i = 1; i < this.checkedKeys.length; i++) {
           units += "," + this.checkedKeys[i];
         }
-        const params = {
-            units:units,
-            userId:this.userInfo.id
-        };
-        updateUserInfo(params).then(res =>{
-            if(res.code===200){
-                this.$message.success("保存成功");
-            }
-        })
       }
+      const params = {
+        units: units,
+        userId: this.userInfo.id,
+      };
+      updateUserInfo(params).then((res) => {
+        if (res.code === 200) {
+          this.$message.success("保存成功");
+          this.$emit("refresh");
+          this.visible = false;
+        }
+      });
     },
     close() {
       this.resetChecked();

@@ -90,7 +90,7 @@ export default {
       machineList: [],
       currentPage: 1, //初始页
       pagesize: 5, //    每页的数据,
-      chooseMachineId:''
+      chooseMachineId: "",
     };
   },
   created() {
@@ -102,11 +102,11 @@ export default {
       getMachineList(params).then((res) => {
         if (res.code === 200) {
           this.machineList = res.data;
-          this.machineList.forEach(e =>{
-            e.subtype.forEach(s=>{
-              s.machineId=e.id
-            })
-          })
+          this.machineList.forEach((e) => {
+            e.subtype.forEach((s) => {
+              s.machineId = e.id;
+            });
+          });
         }
       });
     },
@@ -117,27 +117,45 @@ export default {
       this.$refs.addMachineSub.show(scope.row.id);
     },
     deleteMachine(scope) {
-      const params = {
-        machineId: scope.row.id,
-      };
-      removeMain(params).then((res) => {
-        if (res.code === 200) {
-          this.$notify.success("删除成功");
-          this.refresh();
-        }
-      });
+      this.$confirm("此操作将删除大类及子类器械, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true,
+      })
+        .then(() => {
+          const params = {
+            machineId: scope.row.id,
+          };
+          removeMain(params).then((res) => {
+            if (res.code === 200) {
+              this.$notify.success("删除成功");
+              this.refresh();
+            }
+          });
+        })
+        .catch(() => {});
     },
     deleteSubmachine(scope) {
-      const params = {
-        machineId: scope.row.machineId,
-        index:scope.row.index
-      };
-      removeSub(params).then((res) => {
-        if (res.code === 200) {
-          this.$notify.success("删除成功");
-          this.refresh();
-        }
-      });
+      this.$confirm("此操作将删除该子类器械, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true,
+      })
+        .then(() => {
+          const params = {
+            machineId: scope.row.machineId,
+            index: scope.row.index,
+          };
+          removeSub(params).then((res) => {
+            if (res.code === 200) {
+              this.$notify.success("删除成功");
+              this.refresh();
+            }
+          });
+        })
+        .catch(() => {});
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange(size) {

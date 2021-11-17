@@ -3,6 +3,27 @@
     <el-row :gutter="5">
       <el-col :span="24"><span class="headerTitle">用户管理</span></el-col>
       <el-divider></el-divider>
+      <el-form ref="form" :inline="true" :model="form">
+        <el-form-item label="昵称">
+          <el-input v-model="form.nickname" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="是否维修员">
+          <el-select v-model="form.isFixer" size="small">
+            <el-option label="全部" value=""></el-option>
+            <el-option label="是" :value="true"></el-option>
+            <el-option label="否" :value="false"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="是否微信用户">
+          <el-select v-model="form.isWxUser" size="small">
+            <el-option label="全部" value=""></el-option>
+            <el-option label="是" :value="true"></el-option>
+            <el-option label="否" :value="false"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <el-button type="primary" @click="queryUser">查询</el-button>
+      <el-button>重置</el-button>
       <el-button type="primary" plain @click="addUser">新增用户</el-button>
     </el-row>
     <el-row :gutter="0">
@@ -73,7 +94,7 @@ import AddUserGroup from "@/page/user/components/AddUserGroup";
 import AllocateOrgan from "@/page/user/components/AllocateOrgan";
 import AllocateRepair from "@/page/user/components/AllocateRepair";
 import UserAdd from "@/page/user/components/UserAdd";
-import { getUserList,updateUnit } from "@/page/api/userApi";
+import { getUserList, updateUnit } from "@/page/api/userApi";
 import { formatDate } from "@/common/js/DateFormatUtil.js";
 export default {
   components: {
@@ -81,7 +102,7 @@ export default {
     AddUserGroup,
     UserAdd,
     AllocateOrgan,
-    AllocateRepair
+    AllocateRepair,
   },
   data() {
     return {
@@ -89,9 +110,14 @@ export default {
       chooseUserInfo: {},
       groupList: [],
       machineList: [],
-      loading:false,
+      loading: false,
       currentPage: 1, //初始页
       pagesize: 5, //    每页的数据
+      form: {
+        nickname: "",
+        isFixer: "",
+        isWxUser: "",
+      },
     };
   },
   created() {
@@ -100,16 +126,23 @@ export default {
   methods: {
     // 获取用户列表
     getUserList() {
-      this.loading=true
-      const params = {};
+      this.loading = true;
+      const params = {
+        nickname:this.form.nickname,
+        isFixer: this.form.isFixer,
+        isWxUser:this.form.isWxUser
+      };
       getUserList(params).then((res) => {
         this.userList = res.data;
         this.userList.forEach((e) => {
           e.createTime = formatDate(e.createTime);
           e.updateTime = formatDate(e.updateTime);
         });
-        this.loading=false
+        this.loading = false;
       });
+    },
+    queryUser() {
+      this.getUserList();
     },
     addUser() {
       this.$refs.userAddDialog.showUserAdd();
@@ -124,14 +157,14 @@ export default {
       this.chooseUserInfo = scope.row;
       this.$refs.addUserGroupDialog.show();
     },
-    allocateOrgan(scope){
-      this.$refs.allocateOrgan.show(scope.row)
+    allocateOrgan(scope) {
+      this.$refs.allocateOrgan.show(scope.row);
     },
-    allocateRepair(scope){
-       this.$refs.allocateRepair.show(scope.row)
+    allocateRepair(scope) {
+      this.$refs.allocateRepair.show(scope.row);
     },
-    refresh(){
-      this.getUserList()
+    refresh() {
+      this.getUserList();
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange(size) {
@@ -140,6 +173,11 @@ export default {
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
     },
+    resetQuery(){
+        this.form.nickname="",
+        this.form.isFixer="",
+        this.form.isWxUser+""
+    }
   },
 };
 </script>
