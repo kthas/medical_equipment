@@ -8,14 +8,14 @@
           <el-input v-model="form.nickname" size="small"></el-input>
         </el-form-item>
         <el-form-item label="是否维修员">
-          <el-select v-model="form.isFixer" size="small">
+          <el-select v-model="form.fixer" size="small">
             <el-option label="全部" value=""></el-option>
             <el-option label="是" :value="true"></el-option>
             <el-option label="否" :value="false"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="是否微信用户">
-          <el-select v-model="form.isWxUser" size="small">
+          <el-select v-model="form.wxUser" size="small">
             <el-option label="全部" value=""></el-option>
             <el-option label="是" :value="true"></el-option>
             <el-option label="否" :value="false"></el-option>
@@ -115,8 +115,8 @@ export default {
       pagesize: 5, //    每页的数据
       form: {
         nickname: "",
-        isFixer: "",
-        isWxUser: "",
+        fixer: "",
+        wxUser: "",
       },
     };
   },
@@ -128,10 +128,16 @@ export default {
     getUserList() {
       this.loading = true;
       const params = {
-        nickname:this.form.nickname,
-        isFixer: this.form.isFixer,
-        isWxUser:this.form.isWxUser
       };
+      if (this.form.nickname!='') {
+        params.nickname = this.form.nickname;
+      }
+      if (this.form.fixer ===true||this.form.fixer ===false) {
+        params.fixer = this.form.fixer;
+      }
+      if (this.form.wxUser ===true||this.form.wxUser ===false) {
+        params.wxUser = this.form.wxUser;
+      }
       getUserList(params).then((res) => {
         this.userList = res.data;
         this.userList.forEach((e) => {
@@ -173,11 +179,11 @@ export default {
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
     },
-    resetQuery(){
-        this.form.nickname="",
-        this.form.isFixer="",
-        this.form.isWxUser+""
-    }
+    resetQuery() {
+      (this.form.nickname = ""),
+        (this.form.isFixer = ""),
+        this.form.isWxUser + "";
+    },
   },
 };
 </script>
