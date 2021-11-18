@@ -2,7 +2,7 @@
   <el-container style="margin-left: 10%; margin-right: 10%">
     <el-aside width="200px">
       <el-menu
-        :default-openeds="[]"
+        :default-openeds="defaultOpen"
         @select="menuSelect"
         :unique-opened="false"
         router
@@ -93,6 +93,7 @@ export default {
       organMenu: false,
       userGroupMenu: false,
       orderMenu: false,
+      defaultOpen: [],
     };
   },
   created() {
@@ -154,6 +155,11 @@ export default {
       this.$router.push({ name: "login", params: {} });
     },
     changeMenu() {
+      if (this.$route.path === "/index") {
+        this.defaultOpen = ["1", "2"];
+      }else{
+         this.defaultOpen=[]
+      }
       setTimeout(() => {
         if (this.contentPath.indexOf(this.$route.path) >= 0) {
           this.$refs.menu.open(1);
@@ -161,7 +167,7 @@ export default {
         if (this.orderPath.indexOf(this.$route.path) >= 0) {
           this.$refs.menu.open(2);
         }
-      }, 50);
+      }, 500);
     },
   },
 };
