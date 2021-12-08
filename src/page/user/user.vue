@@ -67,7 +67,7 @@
           @current-change="handleCurrentChange"
           :current-page="currentPage"
           layout="prev, pager, next"
-          :total="machineList.length"
+          :total="userList.length"
         >
         </el-pagination>
       </el-col>
