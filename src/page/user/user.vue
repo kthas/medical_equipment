@@ -23,7 +23,7 @@
         </el-form-item>
       </el-form>
       <el-button type="primary" @click="queryUser">查询</el-button>
-      <el-button>重置</el-button>
+      <el-button @click="resetQuery">重置</el-button>
       <el-button type="primary" plain @click="addUser">新增用户</el-button>
     </el-row>
     <el-row :gutter="0">
@@ -180,9 +180,9 @@ export default {
       this.currentPage = currentPage;
     },
     resetQuery() {
-      (this.form.nickname = ""),
-        (this.form.isFixer = ""),
-        this.form.isWxUser + "";
+      this.form.nickname = "";
+      this.form.fixer = "";
+      this.form.wxUser = "";
     },
   },
 };

@@ -10,8 +10,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    port: 8082, //can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     proxyTable: {
       '/api': {
         target:'http://110.42.151.33:8080', // 你请求的第三方接口

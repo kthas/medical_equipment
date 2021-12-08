@@ -97,6 +97,7 @@ export default {
         units = "";
       } else {
         units = this.checkedKeys[0];
+        isFixer=true
         for (let i = 1; i < this.checkedKeys.length; i++) {
           units += "," + this.checkedKeys[i];
         }
