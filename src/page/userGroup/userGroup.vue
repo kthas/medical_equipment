@@ -26,18 +26,21 @@
                 type="text"
                 size="small"
                 @click="updateUserGroup(scope)"
+                v-if="scope.row.editable"
                 >修改</el-button
               >
               <el-button
                 type="text"
                 size="small"
                 @click="updatePermission(scope)"
+                v-if="scope.row.editable"
                 >修改权限</el-button
               >
               <el-button
                 type="text"
                 size="small"
                 @click="deleteUserGroup(scope)"
+                v-if="scope.row.editable"
                 >删除</el-button
               >
             </template></el-table-column
