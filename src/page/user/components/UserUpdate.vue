@@ -21,6 +21,9 @@
           >
             <el-input v-model.number="userInfo.phoneNumber"></el-input>
           </el-form-item>
+          <el-form-item label="密码">
+            <el-input type="text" v-model="userInfo.password"></el-input>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">确认</el-button>
             <el-button @click="closeUserUpdate()">取消</el-button>
@@ -66,6 +69,7 @@ export default {
       const params = {
         nickname: this.userInfo.nickname,
         phone: this.userInfo.phoneNumber,
+        password: this.userInfo.password,
         userId: this.chooseUserInfo.id,
       };
       updateUserInfo(params).then((res) => {

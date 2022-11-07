@@ -3,10 +3,10 @@ import Vue from 'vue'
 import router from '@/router'
 //2.新创建一个vue实例
 let v = new Vue();
-let baseUrl="localhost:8081"
+let baseUrl="42.192.210.219:8080"
 //2、创建axios的实例
 let httpService = axios.create({
-    baseUrl: "localhost:8081",// TODO:具体的配置可以根据项目情况而来
+    baseUrl: "42.192.210.219:8080",// TODO:具体的配置可以根据项目情况而来
     timeout:5000
 })
 //3、axios的拦截--request

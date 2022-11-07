@@ -30,7 +30,7 @@
               <el-button type="text" size="small" @click="showPic(scope)"
                 >查看图片</el-button
               >
-              <el-button type="text" size="small" @click="showOrder(scope)"
+              <el-button v-if="scope.row.status == 0" type="text" size="small" @click="showOrder(scope)"
                 >审批</el-button
               >
             </template></el-table-column
@@ -92,7 +92,7 @@
 
 <script>
 import ElImageViewer from "element-ui/packages/image/src/image-viewer";
-import { listAllUserOrders ,verify,cancelByChecker} from "@/page/api/orderApi";
+import { listAllUnitOrders ,verify,cancelByChecker} from "@/page/api/orderApi";
 import { getUserInfo } from "@/page/api/userApi";
 import { formatDate } from "@/common/js/DateFormatUtil.js";
 export default {
@@ -125,7 +125,7 @@ export default {
         this.userId = res.data.id;
         params.userId = this.userId;
       });
-      listAllUserOrders(params).then((res) => {
+      listAllUnitOrders(params).then((res) => {
         if (res.code === 200) {
           this.orderList = res.data;
           this.orderList.forEach((e) => {

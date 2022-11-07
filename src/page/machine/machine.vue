@@ -89,7 +89,7 @@ export default {
     return {
       machineList: [],
       currentPage: 1, //初始页
-      pagesize: 5, //    每页的数据,
+      pagesize: 10, //    每页的数据,
       chooseMachineId: "",
     };
   },
@@ -138,8 +138,8 @@ export default {
     },
     deleteSubmachine(scope) {
       this.$confirm("此操作将删除该子类器械, 是否继续?", "提示", {
-        confirmButtonText: "确定",
         cancelButtonText: "取消",
+        confirmButtonText: "确定",
         type: "warning",
         center: true,
       })
