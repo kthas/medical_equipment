@@ -9,10 +9,17 @@
         ref="menu"
         :default-active="$route.path"
       >
+      <el-menu-item >
+          <template 
+            >
+            <span style="font-size: 16px"><b><i class="el-icon-first-aid-kit"></i>医疗器械管理</b></span>
+          </template>
+        </el-menu-item >
         <el-submenu index="1">
           <template slot="title"
-            ><i class="el-icon-s-tools"></i>内容管理</template
-          >
+            >
+          
+          <i class="el-icon-s-tools"></i>内容管理</template>
           <el-menu-item-group>
             <el-menu-item v-if="userMenu" index="/user"
               ><i class="el-icon-user"></i>用户管理</el-menu-item
@@ -155,11 +162,7 @@ export default {
       this.$router.push({ name: "login", params: {} });
     },
     changeMenu() {
-      if (this.$route.path === "/index") {
-        this.defaultOpen = ["1", "2"];
-      }else{
-         this.defaultOpen=[]
-      }
+      this.defaultOpen = ["1", "2"];
       setTimeout(() => {
         if (this.contentPath.indexOf(this.$route.path) >= 0) {
           this.$refs.menu.open(1);
@@ -167,7 +170,7 @@ export default {
         if (this.orderPath.indexOf(this.$route.path) >= 0) {
           this.$refs.menu.open(2);
         }
-      }, 500);
+      }, 0);
     },
   },
 };
@@ -175,12 +178,12 @@ export default {
 
 <style>
 .el-header {
-  background-color: #dceafa;
+  background-color: #ffffff;
   line-height: 56px;
-  border-style: solid;
-  border-color: #7dbafc;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  border-radius: 2px;
+  border-style:solid solid solid none;
+  border-color: #edeff2;
+  box-shadow: 0 2px 4px rgba(210, 210, 210, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .el-main {
   padding: 10px;
@@ -190,7 +193,7 @@ export default {
 }
 .el-dropdown-link {
   cursor: pointer;
-  color: #303133;
+  color: #2293fff0;
 }
 .el-dropdown {
   font-size: 18px;

@@ -30,7 +30,7 @@
               <el-button type="text" size="small" @click="showPic(scope)"
                 >查看图片</el-button
               >
-              <el-button v-if="scope.row.status == 0" type="text" size="small" @click="showOrder(scope)"
+              <el-button v-if="scope.row.order.status == 0" type="text" size="small" @click="showOrder(scope)"
                 >审批</el-button
               >
             </template></el-table-column
@@ -115,7 +115,7 @@ export default {
       srcList: [],
       isOk: false,
       backReason: "",
-      chooseOrder:{}
+      chooseOrder:{},
     };
   },
   methods: {
