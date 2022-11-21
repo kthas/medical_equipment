@@ -124,8 +124,7 @@ export default {
       getUserInfo(params).then((res) => {
         this.userId = res.data.id;
         params.userId = this.userId;
-      });
-      listAllUnitOrders(params).then((res) => {
+        listAllUnitOrders(params).then((res) => {
         if (res.code === 200) {
           this.orderList = res.data;
           this.orderList.forEach((e) => {
@@ -133,6 +132,7 @@ export default {
             e.order.updateTime = formatDate(e.order.updateTime);
           });
         }
+      });
       });
     },
     showPic(scope) {

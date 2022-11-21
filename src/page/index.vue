@@ -40,8 +40,13 @@
             ><i class="el-icon-document"></i>订单管理</template
           >
           <el-menu-item-group>
-            <el-menu-item v-if="userGroupMenu" index="/order"
+            <el-menu-item v-if="orderMenu" index="/order"
               ><i class="el-icon-s-claim"></i>订单审核</el-menu-item
+            >
+          </el-menu-item-group>
+          <el-menu-item-group>
+            <el-menu-item v-if="orderMenu" index="/orderManage"
+              ><i class="el-icon-s-claim"></i>订单管理</el-menu-item
             >
           </el-menu-item-group>
         </el-submenu>

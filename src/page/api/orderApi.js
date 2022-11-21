@@ -14,4 +14,11 @@ export function cancelByChecker(params){
     return get('/api/v1/advance/order/cancelByChecker',params)
 }
 
+export function list(params){
+    return get('/api/v1/advance/order/list',params)
+}
+export function closeOrder(params){
+    return get('/api/v1/advance/order/close',params)
+}
+
 

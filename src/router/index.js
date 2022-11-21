@@ -36,6 +36,11 @@ export default new Router({
           component: resolve => require(['@/page/order/order'],resolve)
         },
         {
+          path: '/orderManage',
+          name: 'orderManage',
+          component: resolve => require(['@/page/order/orderManage'],resolve)
+        },
+        {
           path: '/organ',
           name: 'organ',
           component: resolve => require(['@/page/organ/organ'],resolve)
